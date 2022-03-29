@@ -1,0 +1,3 @@
+pythonSolids4Foam.C
+
+EXE = $(FOAM_USER_APPBIN)/pythonSolids4Foam
