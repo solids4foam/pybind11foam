@@ -110,7 +110,7 @@ RUN echo "export PYBIND11_INC_DIR='-I/opt/conda/envs/pybind-no-gpu/include/pytho
     >> /home/openfoam/.bashrc \
     && echo "export PYBIND11_LIB_DIR=/opt/conda/envs/pybind-no-gpu/lib" \
     >> /home/openfoam/.bashrc \
-    && echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PYBIND11_LIB_DIR" \
+    && echo "export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:\$PYBIND11_LIB_DIR" \
     >> /home/openfoam/.bashrc
 
 # Source bash, load conda environment and build
