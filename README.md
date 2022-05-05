@@ -108,3 +108,20 @@ Although not been demonstrated in article, the solid mechanics test cases can be
 [1]	W. Jakob, J. Rhinelander, and D. Moldovan, “pybind11 – Seamless operability between C++11 and Python.” 2017.
 
 [2]	P. Cardiff et al., “An open-source finite volume toolbox for solid mechanics and fluid-solid interaction simulations,” ArXiv Prepr. ArXiv180810736, 2018.
+
+
+## [tmp] Docker notes: to be integrated into the README above
+
+The user would pull the image:
+$> docker pull philippic/pybindfoam
+
+The user then creates a container from this image:
+$> docker create --entrypoint /bin/bash --name pybindfoam -it philippic/pybindfoam
+
+Then start the container running with:
+$> docker start pybindfoam
+
+Then attach to the container with:
+$> docker attach pybindfoam
+
+Then when you are done, you can type "exit" to exit the container. This will also stop the container.
