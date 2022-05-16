@@ -17,16 +17,17 @@ def calculate(T, gamma):
     Nx = np.sqrt(N).astype(int)
     Ny = Nx
 
+    # Reshape T to 2-D array
+    T2d = np.reshape(T, (Nx, Ny)).copy()
+    newT2d = T2d.copy()
+
     # Use explicit finite difference method to update the non-boundary cells
-    for i in range(1, Nx - 1):
-        #print(i)
-        for j in range(1, Ny - 1):
-            T[i * Ny + j] = \
-                gamma * (T[i * Ny + j + 1] + T[i * Ny + j - 1] \
-                    + T[(i + 1) * Ny + j] + T[(i - 1) * Ny + j] \
-                    - 4 * T[i * Ny + j]) + T[i * Ny + j]
+    newT2d[1:-1, 1:-1] = (gamma*(T2d[2:, 1:-1] + T2d[:-2, 1:-1] + T2d[1:-1, 2:]
+                                 + T2d[1:-1, :-2] - 4*T2d[1:-1, 1:-1])
+                          + T2d[1:-1, 1:-1])
 
-    # Return values 
-    return T
+    # Reshape newT to 1-D array
+    newT2d = np.reshape(newT2d, (N, 1))
 
-
+    # Return values
+    return newT2d
