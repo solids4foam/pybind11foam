@@ -1,0 +1,13 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # Run from this directory
+
+wclean src/pythonLinearElasticByCopy/
+wclean src/pythonLinearElasticByReference
+wclean src/pythonVelocity
+wclean applications/solvers/pythonLaplacianFoam
+wclean applications/solvers/pythonSolids4Foam
+
+cd tutorials
+./Allclean
+
+#------------------------------------------------------------------------------
