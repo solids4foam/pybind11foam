@@ -98,12 +98,33 @@ It is also possible to run the solid mechanics test cases using a GPU, via the p
 Although not been demonstrated in article, the solid mechanics test cases can be run in parallel via the standard OpenFOAM MPI approach without any changes; in that case, each processor has its own local copy of the Python interpreter. To do that, use the provided ./AllrunParallel script.
 
 
+### Docker notes ###
+
+Alternatively, It is possible to run the code via Docker, as explained next:
+
+First, pull the Docker image:
+
+    docker pull philippic/pybindfoam
+
+Next, create a container from this image:
+
+    docker create --entrypoint /bin/bash --name pybindfoam -it philippic/pybindfoam
+
+Then, start the container running with:
+    
+    docker start pybindfoam
+
+Finally, attach to the container with:
+    
+    docker attach pybindfoam
+
+Then when you are done, you can type "exit" to exit the container. This will also stop the container.
+
 
 ### Who do I talk to? ###
 
     simon.rodriguezluzardo@ucdconnect.ie
     philip.cardiff@ucd.ie
-
     
 
 ### References ###
@@ -112,18 +133,3 @@ Although not been demonstrated in article, the solid mechanics test cases can be
 [2]	P. Cardiff et al., “An open-source finite volume toolbox for solid mechanics and fluid-solid interaction simulations,” ArXiv Prepr. ArXiv180810736, 2018.
 
 
-## [tmp] Docker notes: to be integrated into the README above
-
-The user would pull the image:
-$> docker pull philippic/pybindfoam
-
-The user then creates a container from this image:
-$> docker create --entrypoint /bin/bash --name pybindfoam -it philippic/pybindfoam
-
-Then start the container running with:
-$> docker start pybindfoam
-
-Then attach to the container with:
-$> docker attach pybindfoam
-
-Then when you are done, you can type "exit" to exit the container. This will also stop the container.
