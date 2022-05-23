@@ -51,8 +51,7 @@ Once you have solids4foam on your system, set the following environment variable
 
     export SOLIDS4FOAM_INST_DIR=<location_of_solids4foam-release>
     export PYBIND11_INC_DIR=$(python3 -m pybind11 --includes)
-    export PYBIND11_LIB_DIR=$(python -c 'from distutils import sysconfig; \
-    print(sysconfig.get_config_var("LIBDIR"))')
+    export PYBIND11_LIB_DIR=$(python -c 'from distutils import sysconfig; print(sysconfig.get_config_var("LIBDIR"))')
 
 Then, the OpenFOAM code included in the current repository can be compiled with the Allwmake script in the parent folder:
 
