@@ -1,7 +1,7 @@
 // Lookup the python script name
 fileName pythonScript
 (
-    transportProperties.lookup("pythonScript")
+    runTime.controlDict().lookup("pythonScript")
 );
 pythonScript.expand();
 
