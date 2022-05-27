@@ -23,6 +23,7 @@ boundaryField
     movingWall
     {
         type            pythonVelocity;
+        usePython       yes;
         pythonScript    "$FOAM_CASE/setInletVelocity.py";
         value           uniform (0 0 0);
     }

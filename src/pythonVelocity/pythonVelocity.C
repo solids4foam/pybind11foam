@@ -38,6 +38,7 @@ pythonVelocity
 )
 :
     fixedValueFvPatchVectorField(p, iF),
+    usePython_(false),
     pythonScript_("undefined"),
     scope_()
 {}
@@ -53,6 +54,7 @@ pythonVelocity
 )
 :
     fixedValueFvPatchVectorField(ptf, p, iF, mapper),
+    usePython_(ptf.usePython_),
     pythonScript_(ptf.pythonScript_),
     scope_()
 {}
@@ -67,18 +69,27 @@ pythonVelocity
 )
 :
     fixedValueFvPatchVectorField(p, iF, dict),
-    pythonScript_(dict.lookup("pythonScript")),
+    usePython_(dict.lookupOrDefault<Switch>("usePython", Switch(true))),
+    pythonScript_
+    (
+        usePython_
+      ? fileName(dict.lookup("pythonScript"))
+      : fileName("undefined")
+    ),
     scope_()
 {
-    // Expand any environmental variables e.g. $FOAM_CASE
-    pythonScript_.expand();
+    if (usePython_)
+    {
+        // Expand any environmental variables e.g. $FOAM_CASE
+        pythonScript_.expand();
 
-    // Initialise the Python interpreter
-    py::initialize_interpreter();
-    scope_ = py::module_::import("__main__").attr("__dict__");
+        // Initialise the Python interpreter
+        py::initialize_interpreter();
+        scope_ = py::module_::import("__main__").attr("__dict__");
 
-    // Evaluate the Python file to import modules
-    py::eval_file(pythonScript_, scope_);
+        // Evaluate the Python file to import modules
+        py::eval_file(pythonScript_, scope_);
+    }
 }
 
 
@@ -89,6 +100,7 @@ pythonVelocity
 )
 :
     fixedValueFvPatchVectorField(pivpvf),
+    usePython_(pivpvf.usePython_),
     pythonScript_(pivpvf.pythonScript_),
     scope_()
 {}
@@ -102,6 +114,7 @@ pythonVelocity
 )
 :
     fixedValueFvPatchVectorField(pivpvf, iF),
+    usePython_(pivpvf.usePython_),
     pythonScript_(pivpvf.pythonScript_),
     scope_()
 {}
@@ -116,48 +129,70 @@ void Foam::pythonVelocity::updateCoeffs()
         return;
     }
 
-    // Convert the face-centre position vectors to a std::vector
-    const vectorField& C = patch().Cf();
-    std::vector<std::vector<scalar>> inputC(C.size());
-    forAll(C, faceI)
+    // Face-centre velocity field
+    vectorField velocities(patch().size(), vector::zero);
+
+    // Calculate velocities in Python or directly in OpenFOAM
+    if (usePython_)
     {
-        inputC[faceI] = std::vector<scalar>(3);
-        for (int compI = 0; compI < 3; compI++)
+        // Convert the face-centre position vectors to a std::vector
+        const vectorField& C = patch().Cf();
+        std::vector<std::vector<scalar>> inputC(C.size());
+        forAll(C, faceI)
         {
-            inputC[faceI][compI] = C[faceI][compI];
+            inputC[faceI] = std::vector<scalar>(3);
+            for (int compI = 0; compI < 3; compI++)
+            {
+                inputC[faceI][compI] = C[faceI][compI];
+            }
+        }
+
+        // Convert std vector to a C++ NumPy array
+        const py::array inputPy = py::cast(inputC);
+
+        // Transfer the C++ NumPy array to a NumPy array in the Python scope
+        scope_["face_centres"] = inputPy;
+        scope_["time"] = db().time().value();
+
+
+        // Call python script to calculate the face-centre velocities as a function
+        // of the face coordinate vectors and the current time
+        py::exec("velocities = calculate(face_centres, time)\n", scope_);
+
+
+        // Transfer the new velocities back to OpenFOAM
+
+        // Convert the Python velocities to a C++ NumPy array
+        const py::array outputPy = scope_["velocities"];
+
+        // Convert the C++ NumPy array to a C++ std vector
+        const std::vector<std::vector<scalar>> outputC =
+            outputPy.cast<std::vector<std::vector<scalar>>>();
+
+        // Convert the C++ std vector to an OpenFOAM field
+        forAll(velocities, faceI)
+        {
+            for (int compI = 0; compI < 3; compI++)
+            {
+                velocities[faceI][compI] = outputC[faceI][compI];
+            }
         }
     }
-
-    // Convert std vector to a C++ NumPy array
-    const py::array inputPy = py::cast(inputC);
-
-    // Transfer the C++ NumPy array to a NumPy array in the Python scope
-    scope_["face_centres"] = inputPy;
-    scope_["time"] = db().time().value();
-
-
-    // Call python script to calculate the face-centre velocities as a function
-    // of the face coordinate vectors and the current time
-    py::exec("velocities = calculate(face_centres, time)\n", scope_);
-
-
-    // Transfer the new velocities back to OpenFOAM
-
-    // Convert the Python velocities to a C++ NumPy array
-    const py::array outputPy = scope_["velocities"];
-
-    // Convert the C++ NumPy array to a C++ std vector
-    const std::vector<std::vector<scalar>> outputC =
-        outputPy.cast<std::vector<std::vector<scalar>>>();
-
-    // Convert the C++ std vector to an OpenFOAM field
-    vectorField velocities(patch().size());
-    forAll(velocities, faceI)
+    else
     {
-        for (int compI = 0; compI < 3; compI++)
-        {
-            velocities[faceI][compI] = outputC[faceI][compI];
-        }
+        // Perform calculations directly in OpenFOAM
+
+        // X component of the face-centre coordinates
+        const scalarField x(patch().Cf().component(vector::X));
+
+        // Time
+        const scalar t = db().time().value();
+
+        // Pi
+        const scalar pi = constant::mathematical::pi;
+
+        // Calculate velocity
+        velocities.replace(vector::X, Foam::sin(t*pi)*Foam::sin(x*40*pi));
     }
 
     // Set values on the patch
@@ -170,6 +205,8 @@ void Foam::pythonVelocity::updateCoeffs()
 void Foam::pythonVelocity::write(Ostream& os) const
 {
     fvPatchVectorField::write(os);
+    os.writeKeyword("usePython")
+        << usePython_ << token::END_STATEMENT << nl;
     writeEntry(os, "pythonScript", pythonScript_);
     writeEntry(os, "value", *this);
 }

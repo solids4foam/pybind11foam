@@ -81,6 +81,10 @@ class pythonVelocity
 {
     // Private Data
 
+        //- Flag to enable the use of Python
+        //  Default to true
+        const Switch usePython_;
+
         //- Python script name
         fileName pythonScript_;
 
