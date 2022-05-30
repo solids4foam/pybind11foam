@@ -11,10 +11,20 @@ then
     exit 1
 fi
 
-# Check if the SOLIDS4FOAM_INST_DIR environment variable has been set
+# Check required environment variaables are set
 if [[ -z "${SOLIDS4FOAM_INST_DIR}" ]]
 then
     echo "Please set the SOLIDS4FOAM_INST_DIR environment variable!"
+    exit 1
+fi
+if [[ -z "${PYBIND11_INC_DIR}" ]]
+then
+    echo "Please set the PYBIND11_INC_DIR environment variable!"
+    exit 1
+fi
+if [[ -z "${PYBIND11_LIB_DIR}" ]]
+then
+    echo "Please set the PYBIND11_LIB_DIR environment variable!"
     exit 1
 fi
 
