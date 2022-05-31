@@ -1,0 +1,50 @@
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+Build  : 7-3bcbaf946ae9
+Exec   : icoFoam
+Date   : May 31 2022
+Time   : 11:08:31
+Host   : "simon-System-Product-Name"
+PID    : 1144277
+I/O    : uncollated
+Case   : /home/simon/Desktop/PythonCavityFinerMesh/pybind11foam/tutorials/pythonCavity/finerMeshWithPython
+nProcs : 1
+sigFpe : Enabling floating point exception trapping (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 10)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Create mesh for time = 0
+
+Reading transportProperties
+
+Reading field p
+
+Reading field U
+
+Reading/calculating face flux field phi
+
+
+Starting time loop
+
+Time = 0.00025
+
+Courant Number mean: 0 max: 0
+smoothSolver:  Solving for Ux, Initial residual = 1, Final residual = 9.57472e-06, No Iterations 121
+smoothSolver:  Solving for Uy, Initial residual = 0, Final residual = 0, No Iterations 0
+DICPCG:  Solving for p, Initial residual = 1, Final residual = 0.0465129, No Iterations 48
+time step continuity errors : sum local = 1.12324e-08, global = -9.76118e-24, cumulative = -9.76118e-24
+DICPCG:  Solving for p, Initial residual = 0.925189, Final residual = 9.34082e-07, No Iterations 421
+time step continuity errors : sum local = 2.50532e-13, global = -9.81835e-25, cumulative = -1.0743e-23
+ExecutionTime = 3.24 s  ClockTime = 1 s
+
+Time = 0.0005
+
+Courant Number mean: 9.63559e-06 max: 0.000384547

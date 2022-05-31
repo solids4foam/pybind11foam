@@ -1,0 +1,37 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+
+singleGraph
+{
+    start   (0   0.099999999 0.005);
+    end     (0.1 0.099999999 0.005);
+    fields  (Ux);
+
+    //#includeEtc "caseDicts/postProcessing/graphs/sampleDict.cfg"
+    // interpolationScheme cellPatchConstrained;
+    interpolationScheme cellPointFace;
+
+    setFormat   raw;
+
+    setConfig
+    {
+        type    lineCellFace; // lineCell, lineCellFace
+        axis    x;    // x, y, z, xyz
+        //nPoints 1000;
+    }
+
+    // setConfig
+    // {
+    //     axis    x;
+    // }
+
+// Must be last entry
+    #includeEtc "caseDicts/postProcessing/graphs/graph.cfg"
+}
+
+// ************************************************************************* //
