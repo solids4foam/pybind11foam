@@ -14,6 +14,3 @@ set yrange [-1.25:1.25]
 plot \
     "postProcessing/singleGraph/0.5/line_Ux.xy" u 1:2 w p pt 12 t "OpenFOAM", \
     sin(0.5*pi)*sin(x*40*pi) w l t "Analytical"
-
-
-#    "movingWall.Ux.txt" u (0.1/40 + $0*0.1/20):1 w p pt 12 t "OpenFOAM", \
