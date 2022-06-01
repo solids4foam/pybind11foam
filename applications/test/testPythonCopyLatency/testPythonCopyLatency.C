@@ -86,8 +86,9 @@ int main(int argc, char *argv[])
     py::object scope = py::module_::import("__main__").attr("__dict__");
 
     // Create bool and bool vector
-    Info<< "Creating bool" << nl << endl;
+    Info<< "Creating bool, int, and std::vector<bool> " << nl << endl;
     const bool x = true;
+    const int a = 0;
     std::vector<bool> xVec(0);
 
     // Store time before performing copies
@@ -100,6 +101,15 @@ int main(int argc, char *argv[])
     for (int i = 0; i < nIter; i++)
     {
         const bool unused = x;
+    }
+    printElapsedTime(runTime, elapsedCpuTime, elapsedClockTime);
+
+
+    // For reference, copy the int within OpenFOAM
+    Info<< "Copy the int from OpenFOAM to OpenFOAM " << endl;
+    for (int i = 0; i < nIter; i++)
+    {
+        const int unused = a;
     }
     printElapsedTime(runTime, elapsedCpuTime, elapsedClockTime);
 
@@ -122,6 +132,15 @@ int main(int argc, char *argv[])
     printElapsedTime(runTime, elapsedCpuTime, elapsedClockTime);
 
 
+    // Copy the int from OpenFOAM to Python
+    Info<< "Copy the int from OpenFOAM to Python" << endl;
+    for (int i = 0; i < nIter; i++)
+    {
+        scope["a"] = a;
+    }
+    printElapsedTime(runTime, elapsedCpuTime, elapsedClockTime);
+
+
     // Copy the bool vector from OpenFOAM to Python
     Info<< "Copy the std::vector<bool> from OpenFOAM to Python" << endl;
     for (int i = 0; i < nIter; i++)
@@ -140,6 +159,15 @@ int main(int argc, char *argv[])
         // Simon this next line does not compile! We need to correct this in the paper
         //const bool unused = scope["x"]; // does not compile!
         const bool unused = scope["x"].cast<bool>(); // need to cast it!
+    }
+    printElapsedTime(runTime, elapsedCpuTime, elapsedClockTime);
+
+
+    // Copy the int from Python to OpenFOAM
+    Info<< "Copy the int from Python to OpenFOAM" << endl;
+    for (int i = 0; i < nIter; i++)
+    {
+        const bool unused = scope["a"].cast<int>();
     }
     printElapsedTime(runTime, elapsedCpuTime, elapsedClockTime);
 
