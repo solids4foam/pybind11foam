@@ -11,41 +11,41 @@ FoamFile
     format      ascii;
     class       dictionary;
     location    "system";
-    object      controlDict;
+    object      fvSchemes;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-libs            ("libpythonVelocity.so");
+ddtSchemes
+{
+    default         Euler;
+}
 
-application     icoFoam;
+gradSchemes
+{
+    default         Gauss linear;
+    grad(p)         Gauss linear;
+}
 
-startFrom       startTime;
+divSchemes
+{
+    default         none;
+    div(phi,U)      Gauss linear;
+}
 
-startTime       0;
+laplacianSchemes
+{
+    default         Gauss linear orthogonal;
+}
 
-stopAt          endTime;
+interpolationSchemes
+{
+    default         linear;
+}
 
-endTime         0.5;
-
-deltaT          0.00025;
-
-writeControl    timeStep;
-
-writeInterval   200;
-
-purgeWrite      0;
-
-writeFormat     ascii;
-
-writePrecision  6;
-
-writeCompression off;
-
-timeFormat      general;
-
-timePrecision   6;
-
-runTimeModifiable true;
+snGradSchemes
+{
+    default         orthogonal;
+}
 
 
 // ************************************************************************* //

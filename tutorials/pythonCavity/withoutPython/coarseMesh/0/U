@@ -9,43 +9,34 @@ FoamFile
 {
     version     2.0;
     format      ascii;
-    class       dictionary;
-    location    "system";
-    object      controlDict;
+    class       volVectorField;
+    object      U;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-libs            ("libpythonVelocity.so");
+dimensions      [0 1 -1 0 0 0 0];
 
-application     icoFoam;
+internalField   uniform (0 0 0);
 
-startFrom       startTime;
+boundaryField
+{
+    movingWall
+    {
+        type            pythonVelocity;
+        usePython       no;
+        pythonScript    "$FOAM_CASE/setInletVelocity.py";
+        value           uniform (0 0 0);
+    }
 
-startTime       0;
+    fixedWalls
+    {
+        type            noSlip;
+    }
 
-stopAt          endTime;
-
-endTime         0.5;
-
-deltaT          0.00025;
-
-writeControl    timeStep;
-
-writeInterval   200;
-
-purgeWrite      0;
-
-writeFormat     ascii;
-
-writePrecision  6;
-
-writeCompression off;
-
-timeFormat      general;
-
-timePrecision   6;
-
-runTimeModifiable true;
-
+    frontAndBack
+    {
+        type            empty;
+    }
+}
 
 // ************************************************************************* //
