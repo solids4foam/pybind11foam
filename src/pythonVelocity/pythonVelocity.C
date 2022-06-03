@@ -204,8 +204,14 @@ void Foam::pythonVelocity::write(Ostream& os) const
     fvPatchVectorField::write(os);
     os.writeKeyword("usePython")
         << usePython_ << token::END_STATEMENT << nl;
-    writeEntry(os, "pythonScript", pythonScript_);
+    os.writeKeyword("pythonScript")
+        << pythonScript_ << token::END_STATEMENT << nl;
+
+#ifdef OPENFOAMFOUNDATION
     writeEntry(os, "value", *this);
+#else
+    writeEntry("value", os);
+#endif
 }
 
 

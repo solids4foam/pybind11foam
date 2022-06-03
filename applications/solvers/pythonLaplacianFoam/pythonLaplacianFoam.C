@@ -63,7 +63,11 @@ int main(int argc, char *argv[])
 
     Info<< "\nCalculating temperature distribution\n" << endl;
 
+#ifdef OPENFOAMESI
+    while (simple.loop())
+#else
     while (simple.loop(runTime))
+#endif
     {
         Info<< "Time = " << runTime.timeName() << nl << endl;
 
