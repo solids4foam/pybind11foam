@@ -130,6 +130,7 @@ public:
             const pythonVelocity&
         );
 
+#if OPENFOAMFOUNDATION < 9
         //- Construct and return a clone
         virtual tmp<fvPatchVectorField> clone() const
         {
@@ -138,6 +139,7 @@ public:
                 new pythonVelocity(*this)
             );
         }
+#endif
 
         //- Copy constructor setting internal field reference
         pythonVelocity

@@ -30,8 +30,7 @@ License
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::pythonVelocity::
-pythonVelocity
+Foam::pythonVelocity::pythonVelocity
 (
     const fvPatch& p,
     const DimensionedField<vector, volMesh>& iF
@@ -44,8 +43,7 @@ pythonVelocity
 {}
 
 
-Foam::pythonVelocity::
-pythonVelocity
+Foam::pythonVelocity::pythonVelocity
 (
     const pythonVelocity& ptf,
     const fvPatch& p,
@@ -60,8 +58,7 @@ pythonVelocity
 {}
 
 
-Foam::pythonVelocity::
-pythonVelocity
+Foam::pythonVelocity::pythonVelocity
 (
     const fvPatch& p,
     const DimensionedField<vector, volMesh>& iF,
@@ -93,8 +90,8 @@ pythonVelocity
 }
 
 
-Foam::pythonVelocity::
-pythonVelocity
+#if OPENFOAMFOUNDATION < 9 || defined(FOAMEXTEND) || defined(OPENFOAMESI)
+Foam::pythonVelocity::pythonVelocity
 (
     const pythonVelocity& pivpvf
 )
@@ -104,10 +101,10 @@ pythonVelocity
     pythonScript_(pivpvf.pythonScript_),
     scope_()
 {}
+#endif
 
 
-Foam::pythonVelocity::
-pythonVelocity
+Foam::pythonVelocity::pythonVelocity
 (
     const pythonVelocity& pivpvf,
     const DimensionedField<vector, volMesh>& iF

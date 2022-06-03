@@ -34,7 +34,6 @@ Authors
 \*---------------------------------------------------------------------------*/
 
 #include "fvCFD.H"
-#include "fvOptions.H"
 #include "simpleControl.H"
 
 // pybind and python headers

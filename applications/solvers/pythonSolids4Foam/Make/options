@@ -7,11 +7,27 @@ ifeq ($(WM_PROJECT), foam)
         VERSION_SPECIFIC_LIBS += -loversetMesh -loversetDynamicFvMesh
     endif
 else
-    VERSION_SPECIFIC_LIBS = \
-        -lturbulenceModels -lincompressibleTurbulenceModels -ltwoPhaseMixture \
-        -limmiscibleIncompressibleTwoPhaseMixture -lmeshTools -lfvMotionSolvers \
-        -lradiationModels -lfvOptions -lcompressibleTransportModels -lspecie \
-        -lfluidThermophysicalModels -lturbulenceModels -lcompressibleTurbulenceModels
+    ifneq (,$(findstring v,$(WM_PROJECT_VERSION)))
+        VERSION_SPECIFIC_LIBS = \
+            -lturbulenceModels -lincompressibleTurbulenceModels -ltwoPhaseMixture \
+            -limmiscibleIncompressibleTwoPhaseMixture -lmeshTools -lfvMotionSolvers \
+            -lradiationModels -lfvOptions -lcompressibleTransportModels -lspecie \
+            -lfluidThermophysicalModels
+    else
+        ifneq (,$(findstring 9,$(WM_PROJECT_VERSION)))
+            VERSION_SPECIFIC_LIBS = \
+                -ltwoPhaseMixture \
+                -limmiscibleIncompressibleTwoPhaseMixture -lmeshTools -lfvMotionSolvers \
+                -lradiationModels -lspecie \
+                -lfluidThermophysicalModels
+        else
+            VERSION_SPECIFIC_LIBS = \
+                -lturbulenceModels -lincompressibleTurbulenceModels -ltwoPhaseMixture \
+                -limmiscibleIncompressibleTwoPhaseMixture -lmeshTools -lfvMotionSolvers \
+                -lradiationModels -lfvOptions -lcompressibleTransportModels -lspecie \
+                -lfluidThermophysicalModels -lturbulenceModels -lcompressibleTurbulenceModels
+        endif
+    endif
 endif
 
 ifeq (Gcc,$(findstring Gcc,$(WM_COMPILER)))
@@ -78,7 +94,6 @@ EXE_LIBS = \
     -lblockCoupledSolids4FoamTools \
     -lsolids4FoamModels \
     -lfiniteVolume \
-    -lincompressibleTransportModels \
     -ldynamicFvMesh \
     -ldynamicMesh \
     -lmeshTools \
