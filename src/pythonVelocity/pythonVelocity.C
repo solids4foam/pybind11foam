@@ -186,7 +186,11 @@ void Foam::pythonVelocity::updateCoeffs()
         const scalar t = db().time().value();
 
         // Pi
-        const scalar pi = constant::mathematical::pi;
+        #ifdef FOAMEXTEND
+            const scalar pi = mathematicalConstant::pi;
+        #else
+            const scalar pi = constant::mathematical::pi;
+        #endif
 
         // Calculate velocity
         velocities.replace(vector::X, Foam::sin(t*pi)*Foam::sin(x*40*pi));

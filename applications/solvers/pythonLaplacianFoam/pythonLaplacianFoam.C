@@ -49,7 +49,7 @@ namespace py = pybind11;
 
 int main(int argc, char *argv[])
 {
-    #include "setRootCaseLists2.H"
+    #include "setRootCase2.H"
 
     #include "createTime.H"
     #include "createMesh.H"
@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
 
     Info<< "\nCalculating temperature distribution\n" << endl;
 
-#ifdef OPENFOAMESI
+#if defined(OPENFOAMESI) || defined(FOAMEXTEND)
     while (simple.loop())
 #else
     while (simple.loop(runTime))
@@ -74,20 +74,24 @@ int main(int argc, char *argv[])
         while (simple.correctNonOrthogonal())
         {
             // Take a reference to the internal field
-            scalarField& TI = T.primitiveFieldRef();
+            #ifdef FOAMEXTEND
+                scalarField& TI = T.internalField();
+            #else
+                scalarField& TI = T.primitiveFieldRef();
+            #endif
 
             // Set boundary cell values to be equal to the boundary values as we
             // will use a finite difference method in the python script
             // These boundary cells will be the boundary nodes in the finite
             // difference code
-            forAll(T.boundaryFieldRef(), patchI)
+            forAll(T.boundaryField(), patchI)
             {
                 const labelUList& faceCells =
                     mesh.boundary()[patchI].faceCells();
                 forAll(faceCells, faceI)
                 {
                     const label cellID = faceCells[faceI];
-                    TI[cellID] = T.boundaryFieldRef()[patchI][faceI];
+                    TI[cellID] = T.boundaryField()[patchI][faceI];
                 }
             }
 

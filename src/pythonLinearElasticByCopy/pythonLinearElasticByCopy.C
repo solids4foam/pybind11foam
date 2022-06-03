@@ -275,8 +275,12 @@ void Foam::pythonLinearElasticByCopy::correct(volSymmTensorField& sigma)
     updateStrain();
 
     // Take references for brevity and efficiency
-    symmTensorField& sigmaI = sigma.primitiveFieldRef();
-    const symmTensorField& epsilonI = epsilon_.primitiveFieldRef();
+    #ifdef FOAMEXTEND
+        symmTensorField& sigmaI = sigma.internalField();
+    #else
+        symmTensorField& sigmaI = sigma.primitiveFieldRef();
+    #endif
+    const symmTensorField& epsilonI = epsilon_.internalField();
 
     // Calculate stress in the internal field
     calculateStress(sigmaI, epsilonI);
@@ -285,8 +289,12 @@ void Foam::pythonLinearElasticByCopy::correct(volSymmTensorField& sigma)
     forAll(sigma.boundaryField(), patchI)
     {
         // Take references for brevity and efficiency
-        symmTensorField& sigmaP = sigma.boundaryFieldRef()[patchI];
-        const symmTensorField&  epsilonP = epsilon_.boundaryFieldRef()[patchI];
+        #ifdef FOAMEXTEND
+            symmTensorField& sigmaP = sigma.boundaryField()[patchI];
+        #else
+            symmTensorField& sigmaP = sigma.boundaryFieldRef()[patchI];
+        #endif
+        const symmTensorField&  epsilonP = epsilon_.boundaryField()[patchI];
 
         // Calculate stress on the boundary patch
         calculateStress(sigmaP, epsilonP);

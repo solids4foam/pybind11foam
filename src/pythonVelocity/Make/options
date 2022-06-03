@@ -14,7 +14,6 @@ EXE_INC = \
     $(PYBIND11_INC_DIR)
 
 LIB_LIBS = \
-    -lOpenFOAM \
     -lmeshTools \
     -lfiniteVolume \
     -L$(PYBIND11_LIB_DIR) \

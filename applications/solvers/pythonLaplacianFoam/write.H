@@ -1,4 +1,8 @@
+#ifdef FOAMEXTEND
+    if (runTime.outputTime())
+#else
     if (runTime.writeTime())
+#endif
     {
         volVectorField gradT(fvc::grad(T));
 
