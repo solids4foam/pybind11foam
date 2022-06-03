@@ -130,7 +130,7 @@ public:
             const pythonVelocity&
         );
 
-#if OPENFOAMFOUNDATION < 9
+#if OPENFOAMFOUNDATION < 9 || defined(FOAMEXTEND) || defined(OPENFOAMESI)
         //- Construct and return a clone
         virtual tmp<fvPatchVectorField> clone() const
         {
