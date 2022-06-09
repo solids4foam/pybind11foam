@@ -8,46 +8,29 @@
 
 singleGraph
 {
-    start   (0.0025 0.1 0.005);
-    end     (0.0975 0.1 0.005);
+    start   (0   0.099999999 0.005);
+    end     (0.1 0.099999999 0.005);
     fields  (Ux);
 
-    interpolationScheme cellPatchConstrained;
+    //#includeEtc "caseDicts/postProcessing/graphs/sampleDict.cfg"
+    // interpolationScheme cellPatchConstrained;
+    interpolationScheme cellPointFace;
 
     setFormat   raw;
 
     setConfig
     {
-        type    boundaryPoints;
-        patches (movingWall);
-        points
-        (
-            (0.0025 0.1 0.005)
-            (0.0075 0.1 0.005)
-            (0.0125 0.1 0.005)
-            (0.0175 0.1 0.005)
-            (0.0225 0.1 0.005)
-            (0.0275 0.1 0.005)
-            (0.0325 0.1 0.005)
-            (0.0375 0.1 0.005)
-            (0.0425 0.1 0.005)
-            (0.0475 0.1 0.005)
-            (0.0525 0.1 0.005)
-            (0.0575 0.1 0.005)
-            (0.0625 0.1 0.005)
-            (0.0675 0.1 0.005)
-            (0.0725 0.1 0.005)
-            (0.0775 0.1 0.005)
-            (0.0825 0.1 0.005)
-            (0.0875 0.1 0.005)
-            (0.0925 0.1 0.005)
-            (0.0975 0.1 0.005)
-        );
-        maxDistance 0.001;
-        axis    x;
+        type    lineCellFace; // lineCell, lineCellFace
+        axis    x;    // x, y, z, xyz
+        //nPoints 1000;
     }
 
-    // Must be last entry
+    // setConfig
+    // {
+    //     axis    x;
+    // }
+
+// Must be last entry
     #includeEtc "caseDicts/postProcessing/graphs/graph.cfg"
 }
 

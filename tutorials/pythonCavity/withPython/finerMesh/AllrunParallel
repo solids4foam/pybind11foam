@@ -6,8 +6,15 @@
 # Create mesh
 runApplication blockMesh
 
+# Run decomposePar
+decomposePar
+
 # Run solver
-runApplication icoFoam
+# runApplication pythonSolids4Foam
+mpirun -np 4 icoFoam -parallel
+
+# Run reconstructPar
+reconstructPar
 
 # Extract components of U
 runApplication -s componentsU postProcess -func "components(U)" -latestTime
@@ -18,3 +25,6 @@ runApplication -s singleGraph postProcess -func singleGraph -latestTime
 # Generate plot using gnuplot
 runApplication gnuplot plot.gnuplot
 echo "See plot.pdf"
+
+# ----------------------------------------------------------------- end-of-file
+
