@@ -1,13 +1,28 @@
 #!/bin/bash
 
+# Usage
+# Pass the argument 'parallel' to run the case in parallel, e.g.
+# $> ./Allrun parallel
+
 # Source tutorial run functions
 . $WM_PROJECT_DIR/bin/tools/RunFunctions
 
 # Create mesh
 runApplication blockMesh
 
-# Run solver
-runApplication icoFoam
+if [[ "$1" == "parallel" ]]; then
+    # Decompose the case
+    runApplication decomposePar
+
+    # Run solver in serial
+    runParallel icoFoam
+
+    # Reconstruct the case
+    runApplication reconstructPar
+else
+    # Run solver in serial
+    runApplication icoFoam
+fi
 
 # Extract components of U
 runApplication -s componentsU postProcess -func "components(U)" -latestTime
