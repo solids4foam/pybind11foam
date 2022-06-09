@@ -80,12 +80,15 @@ Foam::pythonVelocity::pythonVelocity
         // Expand any environmental variables e.g. $FOAM_CASE
         pythonScript_.expand();
 
-        // Initialise the Python interpreter
-        py::initialize_interpreter();
-        scope_ = py::module_::import("__main__").attr("__dict__");
+        // Initialise the Python interpreter, if it has not already been
+        if (!Py_IsInitialized())
+        {
+            py::initialize_interpreter();
+            scope_ = py::module_::import("__main__").attr("__dict__");
 
-        // Evaluate the Python file to import modules
-        py::eval_file(pythonScript_, scope_);
+            // Evaluate the Python file to import modules
+            py::eval_file(pythonScript_, scope_);
+        }
     }
 }
 
