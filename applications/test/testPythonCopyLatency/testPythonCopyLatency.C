@@ -156,9 +156,7 @@ int main(int argc, char *argv[])
     for (int i = 0; i < nIter; i++)
     {
         // Copy the bool from Python to OpenFOAM
-        // Simon this next line does not compile! We need to correct this in the paper
-        //const bool unused = scope["x"]; // does not compile!
-        const bool unused = scope["x"].cast<bool>(); // need to cast it!
+        const bool unused = scope["x"].cast<bool>();
     }
     printElapsedTime(runTime, elapsedCpuTime, elapsedClockTime);
 
