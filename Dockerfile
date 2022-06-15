@@ -7,7 +7,7 @@
 # environmental variaables.                                                    #
 #                                                                              #
 # Authors: to be added                                                         #
-# Date: April 2022                                                             #
+# Last modified: June 2022                                                     #
 #------------------------------------------------------------------------------#
 
 # Use available OpenFOAM-7 image as starting point
