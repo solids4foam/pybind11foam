@@ -98,6 +98,24 @@ It is also possible to run the solid mechanics test cases using a GPU, via the p
 Although not been demonstrated in article, the solid mechanics test cases can be run in parallel via the standard OpenFOAM MPI approach without any changes; in that case, each processor has its own local copy of the Python interpreter. To do that, use the provided ./AllrunParallel script.
 
 
+
+### Compatible OpenFOAM versions ###
+
+The general pybind11 approach is independent of the OpenFOAM version/fork and will work with all main versions. The attached code compiles with the following versions and forks (it will
+probably work with others too): 
+
+* OpenFOAM-7
+* OpenFOAM-9
+* OpenFOAM-v2012
+* foam-extend-4.1
+
+However, the presented tutorials have only been tested using OpenFOAM-7. 
+
+If desired, the user can make the small changes required to get the cases to work with their particular version of OpenFOAM.
+
+Note that test case which uses solids4foam (third test case) is limited to the OpenFOAM versions supported by solids4foam. To use OpenFOAM-9, OpenFOAM-v2012 and foam-extend-4.1, you need to use the “nextRelease” branch of solids4foam
+
+
 ### Docker notes ###
 
 Alternatively, It is possible to run the code via Docker, as explained next:
