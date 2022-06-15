@@ -20,7 +20,7 @@ if [[ "$1" == "parallel" ]]; then
     # Decompose the case
     runApplication decomposePar
 
-    # Run solver in serial
+    # Run solver
     runParallel pythonSolids4Foam
 
     # Reconstruct the case
@@ -35,9 +35,6 @@ else
     # Run solver in serial
     runApplication pythonSolids4Foam
 fi
-
-# Run solver
-runApplication pythonSolids4Foam
 
 # ----------------------------------------------------------------- end-of-file
 
