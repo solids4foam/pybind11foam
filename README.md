@@ -19,8 +19,6 @@ In addition to an installation of OpenFOAM-7, a Python installation is required.
 
 * pip 21.3.1
 
-* Numba 0.54.1
-
 * Matplotlib 3.3.1
 
 * scikit-learn 1.0.1
