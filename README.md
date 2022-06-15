@@ -47,9 +47,12 @@ One of the test cases uses the solids4foam [2] toolbox. To install it, clone it 
     git reset 8b76740d
     ./Allwmake
 
-Once you have solids4foam on your system, set the following environment variables:
+Once you have solids4foam on your system, set the following environment variable:
 
     export SOLIDS4FOAM_INST_DIR=<location_of_solids4foam-release>
+
+In addition, two pybind11 environment variables must be defined, for example, as:
+
     export PYBIND11_INC_DIR=$(python3 -m pybind11 --includes)
     export PYBIND11_LIB_DIR=$(python3 -c 'from distutils import sysconfig; print(sysconfig.get_config_var("LIBDIR"))')
 
