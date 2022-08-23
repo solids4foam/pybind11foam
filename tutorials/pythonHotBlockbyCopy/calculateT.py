@@ -1,5 +1,4 @@
 import numpy as np
-import ctypes as C
 
 # This script solves the heat equation using an explicit 2-D finite difference
 # discretisation.
@@ -11,13 +10,11 @@ import ctypes as C
 # 3 - The boundary cell values have already been updated
 
 # Calculate the temperature field T using gamma
-def calculate():
-
-    data_pointer_T = C.cast(T_address, C.POINTER(C.c_double))
-    T = np.ctypeslib.as_array(data_pointer_T, shape=(SIZE, 1))
+def calculate(T, gamma):
 
     # Get number of cells in x and y directions
-    Nx = np.sqrt(SIZE).astype(int)
+    N = T.shape[0]
+    Nx = np.sqrt(N).astype(int)
     Ny = Nx
 
     # Reshape T to 2-D array
@@ -29,4 +26,8 @@ def calculate():
                                  + T2d[1:-1, :-2] - 4*T2d[1:-1, 1:-1])
                           + T2d[1:-1, 1:-1])
 
-    T[:, :] = np.reshape(newT2d, (SIZE, 1))
+    # Reshape newT to 1-D array
+    newT2d = np.reshape(newT2d, (N, 1))
+
+    # Return values
+    return newT2d

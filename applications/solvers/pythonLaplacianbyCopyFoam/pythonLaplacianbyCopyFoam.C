@@ -22,7 +22,7 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Application
-    pythonLaplacianByReferenceFoam
+    pythonLaplacianFoam
 
 Description
     Calls python via pybind11 to calculate the T field at each time-step.
@@ -40,6 +40,7 @@ Authors
 #include <pybind11/embed.h>
 #include <pybind11/numpy.h>
 #include <vector>
+#include <pybind11/stl.h>
 #include <pybind11/eval.h>
 
 namespace py = pybind11;
@@ -94,17 +95,18 @@ int main(int argc, char *argv[])
                 }
             }
 
-            // Get pointer to the T array
-            scalar* TData = TI.data();
+            // Convert T field to C++ std vector
+            std::vector<scalar> inputC(TI.size());
+            forAll(TI, cellI)
+            {
+                inputC[cellI] = TI[cellI];
+            }
 
-            // Pass the size of T field to Python
-            scope["SIZE"] = TI.size();
-            
-            // Pass the array pointer address to Python 
-            const long TAddress = reinterpret_cast<long>(TData);
-            scope["T_address"] = TAddress;
+            // Convert std vector to Python Numpy array
+            const py::array inputPy = py::cast(inputC);
 
-            // Pass gamma to Python scope
+            // Assign inputs to Python scope
+            scope["T"] = inputPy;
             scope["gamma"] =
             (
                 DT*runTime.deltaT()
@@ -112,8 +114,20 @@ int main(int argc, char *argv[])
             ).value();
 
             // Call python to calculate T
-            py::exec("calculate()\n", scope);
+            py::exec("T = calculate(T, gamma)\n", scope);
 
+            // Retrieve output
+            const py::array outputPy = scope["T"];
+
+            // Py to C
+            const std::vector<scalar> outputC =
+                outputPy.cast<std::vector<scalar>>();
+
+            // C to OpenFOAM
+            forAll(TI, cellI)
+            {
+                TI[cellI] = outputC[cellI];
+            }
         }
 
         #include "write.H"
