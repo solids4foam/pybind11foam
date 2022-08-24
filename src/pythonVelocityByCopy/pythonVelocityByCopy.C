@@ -23,14 +23,14 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "pythonVelocity.H"
+#include "pythonVelocityByCopy.H"
 #include "addToRunTimeSelectionTable.H"
 #include "volFields.H"
 #include "surfaceFields.H"
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::pythonVelocity::pythonVelocity
+Foam::pythonVelocityByCopy::pythonVelocityByCopy
 (
     const fvPatch& p,
     const DimensionedField<vector, volMesh>& iF
@@ -43,9 +43,9 @@ Foam::pythonVelocity::pythonVelocity
 {}
 
 
-Foam::pythonVelocity::pythonVelocity
+Foam::pythonVelocityByCopy::pythonVelocityByCopy
 (
-    const pythonVelocity& ptf,
+    const pythonVelocityByCopy& ptf,
     const fvPatch& p,
     const DimensionedField<vector, volMesh>& iF,
     const fvPatchFieldMapper& mapper
@@ -58,7 +58,7 @@ Foam::pythonVelocity::pythonVelocity
 {}
 
 
-Foam::pythonVelocity::pythonVelocity
+Foam::pythonVelocityByCopy::pythonVelocityByCopy
 (
     const fvPatch& p,
     const DimensionedField<vector, volMesh>& iF,
@@ -94,9 +94,9 @@ Foam::pythonVelocity::pythonVelocity
 
 
 #if OPENFOAMFOUNDATION < 9 || defined(FOAMEXTEND) || defined(OPENFOAMESI)
-Foam::pythonVelocity::pythonVelocity
+Foam::pythonVelocityByCopy::pythonVelocityByCopy
 (
-    const pythonVelocity& pivpvf
+    const pythonVelocityByCopy& pivpvf
 )
 :
     fixedValueFvPatchVectorField(pivpvf),
@@ -107,9 +107,9 @@ Foam::pythonVelocity::pythonVelocity
 #endif
 
 
-Foam::pythonVelocity::pythonVelocity
+Foam::pythonVelocityByCopy::pythonVelocityByCopy
 (
-    const pythonVelocity& pivpvf,
+    const pythonVelocityByCopy& pivpvf,
     const DimensionedField<vector, volMesh>& iF
 )
 :
@@ -122,7 +122,7 @@ Foam::pythonVelocity::pythonVelocity
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
-void Foam::pythonVelocity::updateCoeffs()
+void Foam::pythonVelocityByCopy::updateCoeffs()
 {
     if (updated())
     {
@@ -135,32 +135,48 @@ void Foam::pythonVelocity::updateCoeffs()
     // Calculate velocities in Python or directly in OpenFOAM
     if (usePython_)
     {
+        // Convert the face-centre position vectors to a std::vector
         const vectorField& C = patch().Cf();
+        std::vector<std::vector<scalar>> inputC(C.size());
+        forAll(C, faceI)
+        {
+            inputC[faceI] = std::vector<scalar>(3);
+            for (int compI = 0; compI < 3; compI++)
+            {
+                inputC[faceI][compI] = C[faceI][compI];
+            }
+        }
 
-        // Get pointer to the C array
-        const Foam::Vector<double>* CData = C.cdata();
+        // Convert std vector to a C++ NumPy array
+        const py::array inputPy = py::cast(inputC);
 
-        // Get pointer to the velocities array
-        Foam::Vector<double>* velocitiesData = velocities.data();
-
-        // Pass the centres array pointer address to Python 
-        const long CAddress = reinterpret_cast<long>(CData);
-        scope_["CAddress"] = CAddress;
-
-        // Pass the velocities array pointer address to Python 
-        const long velocitiesAddress = reinterpret_cast<long>(velocitiesData);
-        scope_["velocitiesAddress"] = velocitiesAddress;
-
-        // Pass the size of C field to Python
-        scope_["SIZE"] = C.size();
-
-        // Pass the time to Python
+        // Transfer the C++ NumPy array to a NumPy array in the Python scope
+        scope_["face_centres"] = inputPy;
         scope_["time"] = db().time().value();
+
 
         // Call python script to calculate the face-centre velocities as a function
         // of the face coordinate vectors and the current time
-        py::exec("calculate()\n", scope_);
+        py::exec("velocities = calculate(face_centres, time)\n", scope_);
 
+
+        // Transfer the new velocities back to OpenFOAM
+
+        // Convert the Python velocities to a C++ NumPy array
+        const py::array outputPy = scope_["velocities"];
+
+        // Convert the C++ NumPy array to a C++ std vector
+        const std::vector<std::vector<scalar>> outputC =
+            outputPy.cast<std::vector<std::vector<scalar>>>();
+
+        // Convert the C++ std vector to an OpenFOAM field
+        forAll(velocities, faceI)
+        {
+            for (int compI = 0; compI < 3; compI++)
+            {
+                velocities[faceI][compI] = outputC[faceI][compI];
+            }
+        }
     }
     else
     {
@@ -190,7 +206,7 @@ void Foam::pythonVelocity::updateCoeffs()
 }
 
 
-void Foam::pythonVelocity::write(Ostream& os) const
+void Foam::pythonVelocityByCopy::write(Ostream& os) const
 {
     fvPatchVectorField::write(os);
     os.writeKeyword("usePython")
@@ -213,7 +229,7 @@ namespace Foam
     makePatchTypeField
     (
         fvPatchVectorField,
-        pythonVelocity
+        pythonVelocityByCopy
     );
 }
 

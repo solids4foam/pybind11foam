@@ -1,12 +1,6 @@
 import numpy as np
-import ctypes as C
 
-def calculate():
-    data_pointer_face_centres = C.cast(CAddress, C.POINTER(C.c_double))
-    face_centres = np.ctypeslib.as_array(data_pointer_face_centres, shape = (SIZE, 3))
-    data_pointer_velocities = C.cast(velocitiesAddress, C.POINTER(C.c_double))
-    velocities = np.ctypeslib.as_array(data_pointer_velocities, shape = (SIZE, 3))
-
+def calculate(face_centres, time):
     # Return if the array size in zero                                                                                            
     if face_centres.shape[0] == 0:
         return face_centres
@@ -16,6 +10,6 @@ def calculate():
 
     # Calculate values using the x coordinates and time                                                                           
     x = face_centres[:, 0]
+    result[:,0] = np.sin(time * np.pi) * np.sin(x * 40 * np.pi)
 
-    # Update the velocity field
-    velocities[:, 0] = np.sin(time * np.pi) * np.sin(x * 40 * np.pi)
+    return result

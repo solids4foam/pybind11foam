@@ -96,13 +96,13 @@ int main(int argc, char *argv[])
 
             // Get pointer to the T array
             scalar* TData = TI.data();
-
-            // Pass the size of T field to Python
-            scope["SIZE"] = TI.size();
             
             // Pass the array pointer address to Python 
             const long TAddress = reinterpret_cast<long>(TData);
             scope["T_address"] = TAddress;
+
+            // Pass the size of T field to Python
+            scope["SIZE"] = TI.size();
 
             // Pass gamma to Python scope
             scope["gamma"] =
