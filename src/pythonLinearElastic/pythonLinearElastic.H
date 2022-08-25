@@ -22,14 +22,14 @@ License
     along with foam-extend.  If not, see <http://www.gnu.org/licenses/>.
 
 Class
-    pythonLinearElasticByCopy
+    pythonLinearElastic
 
 Description
     Mechanical law that uses pybind11 to call a trained Keras (TensorFlow)
     neural network mechanical law.
 
 SourceFiles
-    pythonLinearElasticByCopy.C
+    pythonLinearElastic.C
 
 Author
     Simon A. Rodriguez, UCD. All rights reserved
@@ -37,8 +37,8 @@ Author
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef pythonLinearElasticByCopy_H
-#define pythonLinearElasticByCopy_H
+#ifndef pythonLinearElastic_H
+#define pythonLinearElastic_H
 
 #include "mechanicalLaw.H"
 #include "surfaceFields.H"
@@ -51,17 +51,16 @@ Author
 #include <pybind11/eval.h>
 namespace py = pybind11;
 
-
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 namespace Foam
 {
 
 /*---------------------------------------------------------------------------*\
-                         Class pythonLinearElasticByCopy Declaration
+                         Class pythonLinearElastic Declaration
 \*---------------------------------------------------------------------------*/
 
-class pythonLinearElasticByCopy
+class pythonLinearElastic
 :
     public mechanicalLaw
 {
@@ -81,36 +80,36 @@ class pythonLinearElasticByCopy
         //- Total strain field
         volSymmTensorField epsilon_;
 
-
     // Private Member Functions
 
         //- Disallow default bitwise copy construct
-        pythonLinearElasticByCopy(const pythonLinearElasticByCopy&);
+        pythonLinearElastic(const pythonLinearElastic&);
 
         //- Disallow default bitwise assignment
-        void operator=(const pythonLinearElasticByCopy&);
+        void operator=(const pythonLinearElastic&);
 
         //- Update the strain field
         void updateStrain();
 
-        //- Funtion to calculate the stress
+        //- Make prediction of stress given the strain
+        //  The stress is stored in the python scope
+        void predict(const py::array& epsilon);
+
         void calculateStress
         (
-            symmTensorField& sigma,
-            const symmTensorField& epsilon
+            symmTensorField& sigmaI,
+            const symmTensorField& epsilonI
         );
-
-        word sendToPython;
 
 public:
 
     //- Runtime type information
-    TypeName("pythonLinearElasticByCopy");
+    TypeName("pythonLinearElastic");
 
     // Constructors
 
         //- Construct from dictionary
-        pythonLinearElasticByCopy
+        pythonLinearElastic
         (
             const word& name,
             const fvMesh& mesh,
@@ -121,7 +120,7 @@ public:
 
     // Destructor
 
-        virtual ~pythonLinearElasticByCopy();
+        virtual ~pythonLinearElastic();
 
 
     // Member Functions

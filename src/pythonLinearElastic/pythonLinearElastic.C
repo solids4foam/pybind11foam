@@ -23,7 +23,7 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "pythonLinearElasticByReference.H"
+#include "pythonLinearElastic.H"
 #include "addToRunTimeSelectionTable.H"
 #include "zeroGradientFvPatchFields.H"
 #include <string>
@@ -34,17 +34,17 @@ License
 
 namespace Foam
 {
-    defineTypeNameAndDebug(pythonLinearElasticByReference, 0);
+    defineTypeNameAndDebug(pythonLinearElastic, 0);
     addToRunTimeSelectionTable
     (
-        mechanicalLaw, pythonLinearElasticByReference, linGeomMechLaw
+        mechanicalLaw, pythonLinearElastic, linGeomMechLaw
     );
 }
 
 
 // * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * * * //
 
-void Foam::pythonLinearElasticByReference::updateStrain()
+void Foam::pythonLinearElastic::updateStrain()
 {
     if (incremental())
     {
@@ -69,7 +69,7 @@ void Foam::pythonLinearElasticByReference::updateStrain()
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 // Construct from dictionary
-Foam::pythonLinearElasticByReference::pythonLinearElasticByReference
+Foam::pythonLinearElastic::pythonLinearElastic
 (
     const word& name,
     const fvMesh& mesh,
@@ -110,7 +110,7 @@ Foam::pythonLinearElasticByReference::pythonLinearElasticByReference
     {
         FatalErrorIn
         (
-            "Foam::pythonLinearElasticByReference::pythonLinearElasticByReference\n"
+            "Foam::pythonLinearElastic::pythonLinearElastic\n"
             "(\n"
             "    const word& name,\n"
             "    const fvMesh& mesh,\n"
@@ -127,13 +127,13 @@ Foam::pythonLinearElasticByReference::pythonLinearElasticByReference
 
 // * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
 
-Foam::pythonLinearElasticByReference::~pythonLinearElasticByReference()
+Foam::pythonLinearElastic::~pythonLinearElastic()
 {}
 
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
-Foam::tmp<Foam::volScalarField> Foam::pythonLinearElasticByReference::rho() const
+Foam::tmp<Foam::volScalarField> Foam::pythonLinearElastic::rho() const
 {
     tmp<volScalarField> tresult
     (
@@ -163,7 +163,7 @@ Foam::tmp<Foam::volScalarField> Foam::pythonLinearElasticByReference::rho() cons
 }
 
 
-Foam::tmp<Foam::volScalarField> Foam::pythonLinearElasticByReference::impK() const
+Foam::tmp<Foam::volScalarField> Foam::pythonLinearElastic::impK() const
 {
     return tmp<volScalarField>
     (
@@ -183,16 +183,16 @@ Foam::tmp<Foam::volScalarField> Foam::pythonLinearElasticByReference::impK() con
     );
 }
 
-Foam::tmp<Foam::volScalarField> Foam::pythonLinearElasticByReference::K() const
+Foam::tmp<Foam::volScalarField> Foam::pythonLinearElastic::K() const
 {
-    notImplemented("Foam::pythonLinearElasticByReference::K()");
+    notImplemented("Foam::pythonLinearElastic::K()");
 
     // Keep the compiler happy
     return impK();
 }
 
 
-void Foam::pythonLinearElasticByReference::calculateStress
+void Foam::pythonLinearElastic::calculateStress
 (
     symmTensorField& sigma,
     const symmTensorField& epsilon
@@ -218,7 +218,7 @@ void Foam::pythonLinearElasticByReference::calculateStress
     }
 }
 
-void Foam::pythonLinearElasticByReference::correct(volSymmTensorField& sigma)
+void Foam::pythonLinearElastic::correct(volSymmTensorField& sigma)
 {
     // Update strain volSymmTensorField (epsilon)
     updateStrain();
@@ -251,16 +251,16 @@ void Foam::pythonLinearElasticByReference::correct(volSymmTensorField& sigma)
 }
 
 
-void Foam::pythonLinearElasticByReference::correct(surfaceSymmTensorField& sigma)
+void Foam::pythonLinearElastic::correct(surfaceSymmTensorField& sigma)
 {
     notImplemented
     (
-        "void Foam::pythonLinearElasticByReference::correct(surfaceSymmTensorField&)"
+        "void Foam::pythonLinearElastic::correct(surfaceSymmTensorField&)"
     );
 }
 
 
-Foam::scalar Foam::pythonLinearElasticByReference::residual()
+Foam::scalar Foam::pythonLinearElastic::residual()
 {
     // For nowlinear laws, we can calculate this in some way so that the solid
     // model knows if the law has converged
