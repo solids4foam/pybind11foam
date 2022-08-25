@@ -14,7 +14,7 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-libs            ("libpythonLinearElasticByReference.so");
+libs            ("libpythonLinearElastic.so");
 
 application     pythonSolids4Foam;
 
