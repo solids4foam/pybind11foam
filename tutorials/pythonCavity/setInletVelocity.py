@@ -7,14 +7,14 @@ def calculate():
     data_pointer_velocities = C.cast(velocitiesAddress, C.POINTER(C.c_double))
     velocities = np.ctypeslib.as_array(data_pointer_velocities, shape = (SIZE, 3))
 
-    # Return if the array size in zero                                                                                            
+    # Return if the array size is zero
     if face_centres.shape[0] == 0:
         return face_centres
 
-    # Initialise result                                                                                                           
+    # Initialise result
     result = np.zeros(shape = face_centres.shape)
 
-    # Calculate values using the x coordinates and time                                                                           
+    # Calculate values using the x coordinates and time
     x = face_centres[:, 0]
 
     # Update the velocity field
