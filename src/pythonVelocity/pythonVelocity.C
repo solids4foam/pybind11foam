@@ -129,8 +129,8 @@ void Foam::pythonVelocity::updateCoeffs()
         return;
     }
 
-    // Face-centre velocity field
-    vectorField velocities(patch().size(), vector::zero);
+    // Take a reference to the face-centre velocity field
+    vectorField& velocities = *this;
 
     // Calculate velocities in Python or directly in OpenFOAM
     if (usePython_)
@@ -182,9 +182,6 @@ void Foam::pythonVelocity::updateCoeffs()
         // Calculate velocity
         velocities.replace(vector::X, Foam::sin(t*pi)*Foam::sin(x*40*pi));
     }
-
-    // Set values on the patch
-    fvPatchField<vector>::operator==(velocities);
 
     fixedValueFvPatchVectorField::updateCoeffs();
 }
