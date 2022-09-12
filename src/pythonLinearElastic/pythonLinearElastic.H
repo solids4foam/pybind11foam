@@ -45,10 +45,8 @@ Author
 
 // Pybind11 headers
 #include <pybind11/embed.h>
-#include <pybind11/numpy.h>
-#include <vector>
-#include <pybind11/stl.h>
 #include <pybind11/eval.h>
+#include <vector>
 namespace py = pybind11;
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -90,10 +88,6 @@ class pythonLinearElastic
 
         //- Update the strain field
         void updateStrain();
-
-        //- Make prediction of stress given the strain
-        //  The stress is stored in the python scope
-        void predict(const py::array& epsilon);
 
         void calculateStress
         (

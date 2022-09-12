@@ -58,10 +58,8 @@ Author
 
 // pybind and python headers
 #include <pybind11/embed.h>
-#include <pybind11/numpy.h>
-#include <vector>
-#include <pybind11/stl.h>
 #include <pybind11/eval.h>
+#include <vector>
 
 namespace py = pybind11;
 using namespace pybind11::literals;
