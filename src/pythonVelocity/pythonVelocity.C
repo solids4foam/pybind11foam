@@ -138,10 +138,10 @@ void Foam::pythonVelocity::updateCoeffs()
         const vectorField& C = patch().Cf();
 
         // Get pointer to the C array
-        const Foam::Vector<double>* CData = C.cdata();
+        const Foam::Vector<scalar>* CData = C.cdata();
 
         // Get pointer to the velocities array
-        Foam::Vector<double>* velocitiesData = velocities.data();
+        Foam::Vector<scalar>* velocitiesData = velocities.data();
 
         // Pass the centres array pointer address to Python 
         const long CAddress = reinterpret_cast<long>(CData);
