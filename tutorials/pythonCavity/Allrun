@@ -15,13 +15,13 @@ if [[ "$1" == "parallel" ]]; then
     runApplication decomposePar
 
     # Run solver in serial
-    runParallel icoFoam
+    runParallel pythonIcoFoam
 
     # Reconstruct the case
     runApplication reconstructPar
 else
     # Run solver in serial
-    runApplication icoFoam
+    runApplication pythonIcoFoam
 fi
 
 # Extract components of U
