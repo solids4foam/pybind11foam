@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
         " of Newtonian fluids."
     );
 
-    #include "postProcess.H"
+    //#include "postProcess.H"
 
     #include "addCheckCaseOptions.H"
     #include "setRootCase2.H"
