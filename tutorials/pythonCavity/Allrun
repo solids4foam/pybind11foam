@@ -28,7 +28,7 @@ fi
 runApplication -s componentsU postProcess -func "components(U)" -latestTime
 
 # Extract plot of Ux along the top patch
-runApplication -s singleGraph postProcess -func singleGraph -latestTime
+runApplication -s graphUniform postProcess -func graphUniform -latestTime
 
 # Generate plot using gnuplot
 runApplication gnuplot plot.gnuplot

@@ -12,5 +12,5 @@ set xtics 0.01
 set ytics 0.25
 set yrange [-1.25:1.25]
 plot \
-    "postProcessing/singleGraph/0.5/line_Ux.xy" u 1:2 w p pt 12 t "OpenFOAM", \
+    "postProcessing/graphUniform/0.5/line_Ux.xy" u 1:2 w p pt 12 t "OpenFOAM", \
     sin(0.5*pi)*sin(x*40*pi) w l t "Analytical"
