@@ -12,5 +12,5 @@ set xtics 0.01
 set ytics 10
 set yrange [270:380]
 plot \
-    "postProcessing/singleGraph/5/line_T.xy" u 1:2 w lp pt 12 t "Embedded Python code", \
+    "postProcessing/graphUniform/5/line_T.xy" u 1:2 w lp pt 12 t "Embedded Python code", \
     "postProcessing.laplacianFoam/singleGraph/5/line_T.xy" u 1:2 w lp pt 11 t "laplacianFoam"

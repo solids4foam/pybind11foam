@@ -10,7 +10,7 @@ runApplication blockMesh
 runApplication pythonLaplacianFoam
 
 # Sample along vertical line
-runApplication postProcess -func singleGraph -latestTime
+runApplication postProcess -func graphUniform -latestTime
 
 # Generate plot using gnuplot
 runApplication gnuplot plot.gnuplot
