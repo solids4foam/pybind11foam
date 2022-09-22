@@ -13,6 +13,17 @@ source solids4FoamScripts.sh
 # Check case version is correct
 solids4Foam::convertCaseFormat .
 
+# Compatibility changes for foam extend
+if [[ $WM_PROJECT = "foam" ]]
+    then
+        sed -i 's\symmetry;\symmetryPlane;\g' "0/D"
+        sed -i 's\symmetry\symmetryPlane\g' "system/blockMeshDict"
+fi
+
+# Copy blockMeshDict to constant/polyMesh for foam-extend
+mkdir constant/polyMesh
+cp system/blockMeshDict constant/polyMesh/
+
 # Create mesh
 runApplication blockMesh
 

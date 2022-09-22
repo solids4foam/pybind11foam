@@ -3,6 +3,17 @@
 # Source tutorial run functions
 . $WM_PROJECT_DIR/bin/tools/RunFunctions
 
+# Compatibility changes for foam extend
+if [[ $WM_PROJECT = "foam" ]]
+    then
+        sed -i 's\symmetry;\symmetryPlane;\g' "0/D"
+        sed -i 's\symmetry\symmetryPlane\g' "system/blockMeshDict"
+fi
+
+# Copy blockMeshDict to constant/polyMesh for foam-extend
+mkdir constant/polyMesh
+cp system/blockMeshDict constant/polyMesh/
+
 # Create mesh
 runApplication blockMesh
 
@@ -10,4 +21,3 @@ runApplication blockMesh
 runApplication solids4Foam
 
 # ----------------------------------------------------------------- end-of-file
-
