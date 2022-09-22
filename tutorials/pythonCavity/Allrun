@@ -27,9 +27,19 @@ fi
 # Extract components of U
 runApplication -s componentsU postProcess -func "components(U)" -latestTime
 
-# Extract plot of Ux along the top patch
-runApplication -s graphUniform postProcess -func graphUniform -latestTime
+if [[ $WM_PROJECT_VERSION = "v2012" ]]; then
+    echo "Printing with singleGraph"
+    runApplication -s singleGraph postProcess -func singleGraph -latestTime
 
-# Generate plot using gnuplot
-runApplication gnuplot plot.gnuplot
+    # Generate plot using gnuplot
+    runApplication gnuplot plotSingleGraph.gnuplot
+
+elif [[ $WM_PROJECT_VERSION = "9" ]]; then
+    echo "Printing with graphUniform"
+    runApplication -s graphUniform postProcess -func graphUniform -latestTime
+    
+    # Generate plot using gnuplot
+    runApplication gnuplot plotGraphUniform.gnuplot
+fi
+
 echo "See plot.pdf"
