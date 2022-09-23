@@ -80,15 +80,21 @@ Foam::pythonVelocity::pythonVelocity
         // Expand any environmental variables e.g. $FOAM_CASE
         pythonScript_.expand();
 
+        // In foam-extend, it can cause an error later if the interpreter is
+        // initialised here, so instead we will perform the initialisation just
+        // before it is used
+        #ifndef FOAMEXTEND
         // Initialise the Python interpreter, if it has not already been
         if (!Py_IsInitialized())
         {
+            Info<< "Initialising the Python interpreter" << endl;
             py::initialize_interpreter();
             scope_ = py::module_::import("__main__").attr("__dict__");
 
             // Evaluate the Python file to import modules
             py::eval_file(pythonScript_, scope_);
         }
+        #endif
     }
 }
 
@@ -129,6 +135,19 @@ void Foam::pythonVelocity::updateCoeffs()
         return;
     }
 
+    #ifdef FOAMEXTEND
+    // Initialise the Python interpreter, if it has not already been
+    if (!Py_IsInitialized())
+    {
+        Info<< "Initialising the Python interpreter" << endl;
+        py::initialize_interpreter();
+        scope_ = py::module_::import("__main__").attr("__dict__");
+
+        // Evaluate the Python file to import modules
+        py::eval_file(pythonScript_, scope_);
+    }
+    #endif
+
     // Take a reference to the face-centre velocity field
     vectorField& velocities = *this;
 
@@ -160,7 +179,6 @@ void Foam::pythonVelocity::updateCoeffs()
         // Call python script to calculate the face-centre velocities as a function
         // of the face coordinate vectors and the current time
         py::exec("calculate()\n", scope_);
-
     }
     else
     {
