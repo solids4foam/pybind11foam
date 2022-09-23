@@ -34,7 +34,7 @@ solvers
     U
     {
         solver          smoothSolver;
-        smoother        symGaussSeidel;
+        smoother        GaussSeidel;
         tolerance       1e-05;
         relTol          0;
     }
