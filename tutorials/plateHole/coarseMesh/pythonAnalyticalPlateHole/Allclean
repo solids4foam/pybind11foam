@@ -9,7 +9,7 @@ then
     sed -i 's\symmetryPlane;\symmetry;\g' "0/D"
     sed -i 's\symmetryPlane\symmetry\g' "system/blockMeshDict"
 
-    # Remove blockMeshDict frm constant/polyMesh
+    # Remove blockMeshDict from constant/polyMesh
     rm -f constant/polyMesh/blockMeshDict
 fi
 
