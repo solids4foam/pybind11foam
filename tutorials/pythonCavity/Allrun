@@ -1,11 +1,21 @@
 #!/bin/bash
 
 # Usage
-# Pass the argument 'parallel' to run the case in parallel, e.g.
+# Run in serial:
+# $> ./Allrun parallel
+# Run in parallel:
 # $> ./Allrun parallel
 
 # Source tutorial run functions
 . $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+# Compatibility changes for foam extend
+if [[ $WM_PROJECT = "foam" ]]
+then
+    # Copy blockMeshDict to constant/polyMesh
+    mkdir constant/polyMesh
+    cp system/blockMeshDict constant/polyMesh/
+fi
 
 # Create mesh
 runApplication blockMesh
@@ -24,22 +34,23 @@ else
     runApplication pythonIcoFoam
 fi
 
-# Extract components of U
-runApplication -s componentsU postProcess -func "components(U)" -latestTime
+if [[ $WM_PROJECT = "foam" ]]
+then
+    echo "Plots not created for foam extend"; echo
+else
+    # Extract components of U
+    runApplication -s componentsU postProcess -func "components(U)" -latestTime
 
-if [[ $WM_PROJECT_VERSION = "v2012" ]]; then
-    echo "Printing with singleGraph"
-    runApplication -s singleGraph postProcess -func singleGraph -latestTime
+    if [[ $WM_PROJECT_VERSION = "v2012" ]]
+    then
+        runApplication -s singleGraph postProcess -func singleGraph -latestTime
+        runApplication gnuplot plotSingleGraph.gnuplot
+    elif [[ $WM_PROJECT_VERSION = "9" ]]
+    then
+        runApplication -s graphUniform postProcess -func graphUniform -latestTime
+        runApplication gnuplot plotGraphUniform.gnuplot
+    fi
 
-    # Generate plot using gnuplot
-    runApplication gnuplot plotSingleGraph.gnuplot
-
-elif [[ $WM_PROJECT_VERSION = "9" ]]; then
-    echo "Printing with graphUniform"
-    runApplication -s graphUniform postProcess -func graphUniform -latestTime
-    
-    # Generate plot using gnuplot
-    runApplication gnuplot plotGraphUniform.gnuplot
+    echo "See plot.pdf"; echo
 fi
 
-echo "See plot.pdf"
