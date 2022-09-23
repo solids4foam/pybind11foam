@@ -1,23 +1,38 @@
 #!/bin/bash
 
+# Usage
+# Run in serial:
+# $> ./Allrun parallel
+# Run in parallel:
+# $> ./Allrun parallel
+
 # Source tutorial run functions
 . $WM_PROJECT_DIR/bin/tools/RunFunctions
 
 # Compatibility changes for foam extend
 if [[ $WM_PROJECT = "foam" ]]
-    then
-        sed -i 's\symmetry;\symmetryPlane;\g' "0/D"
-        sed -i 's\symmetry\symmetryPlane\g' "system/blockMeshDict"
-fi
+then
+    sed -i 's\symmetry;\symmetryPlane;\g' "0/D"
+    sed -i 's\symmetry\symmetryPlane\g' "system/blockMeshDict"
 
-# Copy blockMeshDict to constant/polyMesh for foam-extend
-mkdir constant/polyMesh
-cp system/blockMeshDict constant/polyMesh/
+    # Copy blockMeshDict to constant/polyMesh
+    mkdir constant/polyMesh
+    cp system/blockMeshDict constant/polyMesh/
+fi
 
 # Create mesh
 runApplication blockMesh
 
-# Run solver
-runApplication solids4Foam
+if [[ "$1" == "parallel" ]]; then
+    # Decompose the case
+    runApplication decomposePar
 
-# ----------------------------------------------------------------- end-of-file
+    # Run solver
+    runParallel solids4Foam
+
+    # Reconstruct the case
+    runApplication reconstructPar
+else
+    # Run solver in serial
+    runApplication solids4Foam
+fi

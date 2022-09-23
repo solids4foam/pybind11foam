@@ -1,28 +1,24 @@
 #!/bin/bash
 
 # Usage
-# Pass the argument 'parallel' to run the case in parallel, e.g.
+# Run in serial:
+# $> ./Allrun parallel
+# Run in parallel:
 # $> ./Allrun parallel
 
 # Source tutorial run functions
 . $WM_PROJECT_DIR/bin/tools/RunFunctions
 
-# Source solids4Foam scripts
-source solids4FoamScripts.sh
-
-# Check case version is correct
-solids4Foam::convertCaseFormat .
-
 # Compatibility changes for foam extend
 if [[ $WM_PROJECT = "foam" ]]
-    then
-        sed -i 's\symmetry;\symmetryPlane;\g' "0/D"
-        sed -i 's\symmetry\symmetryPlane\g' "system/blockMeshDict"
-fi
+then
+    sed -i 's\symmetry;\symmetryPlane;\g' "0/D"
+    sed -i 's\symmetry\symmetryPlane\g' "system/blockMeshDict"
 
-# Copy blockMeshDict to constant/polyMesh for foam-extend
-mkdir constant/polyMesh
-cp system/blockMeshDict constant/polyMesh/
+    # Copy blockMeshDict to constant/polyMesh
+    mkdir constant/polyMesh
+    cp system/blockMeshDict constant/polyMesh/
+fi
 
 # Create mesh
 runApplication blockMesh
@@ -36,16 +32,7 @@ if [[ "$1" == "parallel" ]]; then
 
     # Reconstruct the case
     runApplication reconstructPar
-elif [[ "$1" == "GPU" ]]; then
-    # Expose  GPU. Remember, replace the route with the one from your system.
-    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/simon/anaconda3/envs/pybind-gpu/lib
-
-    # Run solver
-    runApplication pythonSolids4Foam
 else
     # Run solver in serial
     runApplication pythonSolids4Foam
 fi
-
-# ----------------------------------------------------------------- end-of-file
-
