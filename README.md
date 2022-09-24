@@ -119,20 +119,6 @@ To run any of the cases in parallel, pass the argument "parallel" to the Allrun 
 
     ./Allrun parallel
 
-### Running on a GPU
-
-For the solid mechanics test cases, it is possible to use a GPU to evaluate the Keras neural networks. To do that, install and activate the Python environment "pybind-gpu" given by the included file "pybind-gpu.yml". This file installs the GPU version of TensorFlow. When using the GPU, please bear in mind:
-
-* Pass the argument "GPU" to the Allrun scripts, e.g.
-
-        ./Allrun GPU
-
-* The libcudnn.so library must be available in the LD_LIBRARY_PATH. To manually do this, replace the line after "# Expose  GPU" in the Allrun script with the specific location of your libcudnn.so.
-* In the cases presented here, it is expected that using a GPU will slow down the calculations as the time required to send data to the GPU is significant relative to the time for the calculations to be performed; however, the GPU approach is left for demonstration purposes.
-* For parallel runs with a GPU, the first processor will access the GPU and then block it for the other processors so that you would need one GPU per processor, or the Python code would need to be updated to deal with the mismatch between CPU cores and GPUs.
-
-
-
 ### Compatible OpenFOAM versions ###
 
 The general pybind11 approach is independent of the OpenFOAM version/fork and is expected to work with all main versions. The included code compiles with the following versions and forks (it will probably work with others too): 
