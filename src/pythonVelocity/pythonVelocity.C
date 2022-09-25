@@ -156,29 +156,36 @@ void Foam::pythonVelocity::updateCoeffs()
     {
         const vectorField& C = patch().Cf();
 
-        // Get pointer to the C array
-        const Foam::Vector<scalar>* CData = C.cdata();
+        if (C.size() != 0) 
+        
+        {
 
-        // Get pointer to the velocities array
-        Foam::Vector<scalar>* velocitiesData = velocities.data();
+            // Get pointer to the C array
+            const Foam::Vector<scalar>* CData = C.cdata();
 
-        // Pass the centres array pointer address to Python 
-        const long CAddress = reinterpret_cast<long>(CData);
-        scope_["CAddress"] = CAddress;
+            // Get pointer to the velocities array
+            Foam::Vector<scalar>* velocitiesData = velocities.data();
 
-        // Pass the velocities array pointer address to Python 
-        const long velocitiesAddress = reinterpret_cast<long>(velocitiesData);
-        scope_["velocitiesAddress"] = velocitiesAddress;
+            // Pass the centres array pointer address to Python 
+            const long CAddress = reinterpret_cast<long>(CData);
+            scope_["CAddress"] = CAddress;
 
-        // Pass the size of C field to Python
-        scope_["SIZE"] = C.size();
+            // Pass the velocities array pointer address to Python 
+            const long velocitiesAddress = reinterpret_cast<long>(velocitiesData);
+            scope_["velocitiesAddress"] = velocitiesAddress;
 
-        // Pass the time to Python
-        scope_["time"] = db().time().value();
+            // Pass the size of C field to Python
+            scope_["SIZE"] = C.size();
 
-        // Call python script to calculate the face-centre velocities as a function
-        // of the face coordinate vectors and the current time
-        py::exec("calculate()\n", scope_);
+            // Pass the time to Python
+            scope_["time"] = db().time().value();
+
+            // Call python script to calculate the face-centre velocities as a function
+            // of the face coordinate vectors and the current time
+            py::exec("calculate()\n", scope_);
+
+        }
+
     }
     else
     {

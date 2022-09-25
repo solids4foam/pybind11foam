@@ -24,11 +24,17 @@ if [[ "$1" == "parallel" ]]; then
     # Decompose the case
     runApplication decomposePar
 
-    # Run solver in serial
-    runParallel pythonIcoFoam
+    if [[ $WM_PROJECT = "foam" ]]
+    then
+        #The number of processors must be set up properly
+        mpirun -np 9 pythonIcoFoam -parallel > log.pythonIcoFoam
+    else
+        # Run solver in serial
+        runParallel pythonIcoFoam
 
-    # Reconstruct the case
-    runApplication reconstructPar
+        # Reconstruct the case
+        runApplication reconstructPar
+    fi
 else
     # Run solver in serial
     runApplication pythonIcoFoam
