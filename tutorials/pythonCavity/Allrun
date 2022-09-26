@@ -31,10 +31,10 @@ if [[ "$1" == "parallel" ]]; then
     else
         # Run solver in serial
         runParallel pythonIcoFoam
-
+    fi
         # Reconstruct the case
         runApplication reconstructPar
-    fi
+        
 else
     # Run solver in serial
     runApplication pythonIcoFoam
