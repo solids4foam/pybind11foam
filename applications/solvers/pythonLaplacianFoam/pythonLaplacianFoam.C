@@ -111,7 +111,7 @@ int main(int argc, char *argv[])
             ).value();
 
             // Call python to calculate T
-            py::exec("calculate()\n", scope);
+            py::exec("calculate()", scope);
 
         }
 

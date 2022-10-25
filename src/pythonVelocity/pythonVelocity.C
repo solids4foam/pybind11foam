@@ -182,7 +182,7 @@ void Foam::pythonVelocity::updateCoeffs()
 
             // Call python script to calculate the face-centre velocities as a function
             // of the face coordinate vectors and the current time
-            py::exec("calculate()\n", scope_);
+            py::exec("calculate()", scope_);
 
         }
 
