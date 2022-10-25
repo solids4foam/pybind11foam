@@ -2,7 +2,7 @@
 
 # Usage
 # Run in serial:
-# $> ./Allrun parallel
+# $> ./Allrun
 # Run in parallel:
 # $> ./Allrun parallel
 
