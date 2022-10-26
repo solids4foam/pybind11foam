@@ -1,11 +1,4 @@
-/*---------------------------------------------------------------------------*\
-  =========                 |
-  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
-   \\    /   O peration     |
-    \\  /    A nd           | Copyright held by original author
-     \\/     M anipulation  |
--------------------------------------------------------------------------------
-License
+/* License
     This file is part of OpenFOAM.
 
     OpenFOAM is free software; you can redistribute it and/or modify it
@@ -23,15 +16,15 @@ License
     Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 Application
-    pybindsolids4Foam
+    pythonsolids4Foam
 
 Description
     General solver where the solved mathematical model (fluid, solid or
     fluid-solid) is chosen at run-time.
 
 Author
-    Philip Cardiff, UCD.  All rights reserved.
-    Zeljko Tukovic, FSB Zagreb.  All rights reserved.
+    Simon A. Rodriguez, UCD. All rights reserved
+    Philip Cardiff, UCD. All rights reserved
 
 \*---------------------------------------------------------------------------*/
 
@@ -44,8 +37,6 @@ int main(int argc, char *argv[])
 {
 // #   include "setRootCase.H"
 #   include "setRootCase2.H"
-
-
 #   include "createTime.H"
 #   include "solids4FoamWriteHeader.H"
 

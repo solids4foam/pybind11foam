@@ -1,11 +1,4 @@
-/*---------------------------------------------------------------------------*\
-  =========                 |
-  \\      /  F ield         | foam-extend: Open Source CFD
-   \\    /   O peration     |
-    \\  /    A nd           | For copyright notice see file Copyright
-     \\/     M anipulation  |
--------------------------------------------------------------------------------
-License
+/* License
     This file is part of foam-extend.
 
     foam-extend is free software: you can redistribute it and/or modify it
@@ -26,9 +19,6 @@ License
 #include "pythonLinearElastic.H"
 #include "addToRunTimeSelectionTable.H"
 #include "zeroGradientFvPatchFields.H"
-#include <string>
-#include <iostream>
-#include <sstream>
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 

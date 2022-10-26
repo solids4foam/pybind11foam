@@ -1,11 +1,4 @@
-/*---------------------------------------------------------------------------*\
-  =========                 |
-  \\      /  F ield         | foam-extend: Open Source CFD
-   \\    /   O peration     | Version:     4.1
-    \\  /    A nd           | Web:         http://www.foam-extend.org
-     \\/     M anipulation  | For copyright notice see file Copyright
--------------------------------------------------------------------------------
-License
+/* License
     This file is part of foam-extend.
 
     foam-extend is free software: you can redistribute it and/or modify it
@@ -22,16 +15,12 @@ License
     along with foam-extend.  If not, see <http://www.gnu.org/licenses/>.
 
 Application
-    icoFoam
+    pythonIcoFoam
 
 Description
     Transient solver for incompressible, laminar flow of Newtonian fluids.
     Consistent formulation without time-step and relaxation dependence by
     Jasak and Tukovic.
-
-Author
-    Hrvoje Jasak, Wikki Ltd.  All rights reserved
-
 \*---------------------------------------------------------------------------*/
 
 #include "fvCFD.H"

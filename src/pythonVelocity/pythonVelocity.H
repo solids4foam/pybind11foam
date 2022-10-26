@@ -1,11 +1,4 @@
-/*---------------------------------------------------------------------------*\
-  =========                 |
-  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
-   \\    /   O peration     | Website:  https://openfoam.org
-    \\  /    A nd           | Copyright (C) 2011-2019 OpenFOAM Foundation
-     \\/     M anipulation  |
--------------------------------------------------------------------------------
-License
+/* License
     This file is part of OpenFOAM.
 
     OpenFOAM is free software: you can redistribute it and/or modify it
@@ -59,8 +52,6 @@ Author
 // pybind and python headers
 #include <pybind11/embed.h>
 #include <pybind11/eval.h>
-#include <vector>
-
 namespace py = pybind11;
 using namespace pybind11::literals;
 

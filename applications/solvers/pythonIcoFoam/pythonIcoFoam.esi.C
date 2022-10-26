@@ -1,14 +1,4 @@
-/*---------------------------------------------------------------------------*\
-  =========                 |
-  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
-   \\    /   O peration     |
-    \\  /    A nd           | www.openfoam.com
-     \\/     M anipulation  |
--------------------------------------------------------------------------------
-    Copyright (C) 2011-2016 OpenFOAM Foundation
-    Copyright (C) 2019 OpenCFD Ltd.
--------------------------------------------------------------------------------
-License
+/* License
     This file is part of OpenFOAM.
 
     OpenFOAM is free software: you can redistribute it and/or modify it
@@ -25,41 +15,10 @@ License
     along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
 
 Application
-    icoFoam
-
-Group
-    grpIncompressibleSolvers
+    pythonIcoFoam
 
 Description
     Transient solver for incompressible, laminar flow of Newtonian fluids.
-
-    \heading Solver details
-    The solver uses the PISO algorithm to solve the continuity equation:
-
-        \f[
-            \div \vec{U} = 0
-        \f]
-
-    and momentum equation:
-
-        \f[
-            \ddt{\vec{U}}
-          + \div \left( \vec{U} \vec{U} \right)
-          - \div \left(\nu \grad \vec{U} \right)
-          = - \grad p
-        \f]
-
-    Where:
-    \vartable
-        \vec{U} | Velocity
-        p       | Pressure
-    \endvartable
-
-    \heading Required fields
-    \plaintable
-        U       | Velocity [m/s]
-        p       | Kinematic pressure, p/rho [m2/s2]
-    \endplaintable
 
 \*---------------------------------------------------------------------------*/
 

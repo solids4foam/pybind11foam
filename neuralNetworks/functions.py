@@ -1,3 +1,28 @@
+# License
+#  This program is part of pythonPal4Foam.
+
+#  This program is free software: you can redistribute it and/or modify 
+#  it under the terms of the GNU General Public License as published 
+#  by the Free Software Foundation, either version 3 of the License, 
+#  or (at your option) any later version.
+
+#  This program is distributed in the hope that it will be useful, 
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of 
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+
+#  See the GNU General Public License for more details. You should have 
+#  received a copy of the GNU General Public License along with this 
+#  program. If not, see <https://www.gnu.org/licenses/>. 
+
+# Description
+#  This file has the definitions of some functions that are used when 
+#  setting up and training the neural network.
+
+# Author
+#  Simon A. Rodriguez, UCD. All rights reserved
+#  Philip Cardiff, UCD. All rights reserved
+
+
 ################### Required imports ##########################
 import pickle
 from tqdm import tqdm
@@ -160,8 +185,6 @@ def createDataset(strains_path, stresses_path, number_strain_sequences,
     training_indices = random.sample(total_indices, 
                                      round(splitter[0] * \
                                            number_strain_sequences))
-    # print("training_indices", training_indices)
-    # exit()
     possible_validation_indices = list(set(total_indices) - \
                                        set(training_indices))
     validation_indices = random.sample(possible_validation_indices, 
