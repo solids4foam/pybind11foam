@@ -28,7 +28,7 @@ if [[ "$1" == "parallel" ]]; then
     runApplication decomposePar
 
     # Run solver
-    mpirun -np 4 pythonSolids4Foam -parallel > log.pythonSolids4Foam
+    mpirun -np 4 solids4Foam -parallel > log.pythonSolids4Foam
 
     # Reconstruct the case
     runApplication reconstructPar
