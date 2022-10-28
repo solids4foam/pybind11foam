@@ -1,28 +1,31 @@
 /* License
-    This file is part of OpenFOAM.
+    This program is part of pythonPal4Foam.
 
-    OpenFOAM is free software: you can redistribute it and/or modify it
-    under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+    This program is free software: you can redistribute it and/or modify 
+    it under the terms of the GNU General Public License as published 
+    by the Free Software Foundation, either version 3 of the License, 
+    or (at your option) any later version.
 
-    OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
-    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-    for more details.
+    This program is distributed in the hope that it will be useful, 
+    but WITHOUT ANY WARRANTY; without even the implied warranty of 
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 
-    You should have received a copy of the GNU General Public License
-    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
+    See the GNU General Public License for more details. You should have 
+    received a copy of the GNU General Public License along with this 
+    program. If not, see <https://www.gnu.org/licenses/>. 
 
-Application
+   Application
     pythonLaplacianFoam
 
-Description
-    Calls python via pybind11 to calculate the T field at each time-step.
+   Original solver
+    laplacianFoam
 
-Authors
+   Modified by
     Philip Cardiff, UCD.
     Simón A. Rodríguez L., UCD.
+
+   Description
+    Calls python via pybind11 to calculate the T field at each time-step.
 
 \*---------------------------------------------------------------------------*/
 
@@ -32,7 +35,6 @@ Authors
 // pybind and python headers
 #include <pybind11/embed.h>
 #include <pybind11/eval.h>
-#include <vector>
 
 namespace py = pybind11;
 
