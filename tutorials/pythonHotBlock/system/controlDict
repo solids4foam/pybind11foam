@@ -8,7 +8,7 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-application     pybindFoam;
+application     pythonLaplacianFoam;
 
 startFrom       startTime;
 
