@@ -1,0 +1,10 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # Run from this directory
+
+# Clean solvers
+wclean applications/solvers/pythonPalIcoFoam
+
+# Clean tutorials
+(cd tutorials && ./Allclean)
+
+#------------------------------------------------------------------------------

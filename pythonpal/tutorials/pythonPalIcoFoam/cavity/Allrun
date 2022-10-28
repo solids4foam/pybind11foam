@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Source tutorial run functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+# Compatibility changes for foam extend
+if [[ $WM_PROJECT = "foam" ]]
+then
+    # Copy blockMeshDict to constant/polyMesh
+    mkdir constant/polyMesh
+    cp system/blockMeshDict constant/polyMesh/
+fi
+
+# Create mesh
+runApplication blockMesh
+
+# Run solver
+runApplication pythonPalIcoFoam

@@ -1,0 +1,12 @@
+name: pythonPal-no-gpu
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.8.12
+  - scipy=1.8.0
+  - pip=21.3.1
+  - pybind11=2.8.1
+  - pip:
+    - numpy==1.18.5
+prefix: ./

@@ -1,0 +1,23 @@
+ifeq ($(WM_PROJECT), foam)
+    VERSION_SPECIFIC_INC = -DFOAMEXTEND
+else
+    ifneq (,$(findstring v,$(WM_PROJECT_VERSION)))
+        VERSION_SPECIFIC_INC += -DOPENFOAMESI
+    else
+        VERSION_SPECIFIC_INC += -DOPENFOAMFOUNDATION
+    endif
+endif
+
+EXE_INC = \
+    -Wno-old-style-cast \
+    $(VERSION_SPECIFIC_INC) \
+    -I$(LIB_SRC)/finiteVolume/lnInclude \
+    -I$(LIB_SRC)/meshTools/lnInclude \
+    $(PYBIND11_INC_DIR) \
+    -I../../../src/pythonPal
+
+EXE_LIBS = \
+    -lfiniteVolume \
+    -lmeshTools \
+    -L$(PYBIND11_LIB_DIR) \
+    -lpython3.8
