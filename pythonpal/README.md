@@ -2,7 +2,7 @@
 
 ### What is this? ###
 
-This repository contains OpenFOAM code and tutorials that show how to use Python interpreters to interact with OpenFOAM via pythonPal. pythonPal offers Python support and interoperability between the C++/Python data based on the pybind11 library [1]. The code in this repository is based on OpenFOAM-9, however, as noted below, the procedures are expected to compile with similar versions and forks of OpenFOAM.
+This section contains OpenFOAM code and tutorials that show how to use Python interpreters to interact with OpenFOAM via pythonPal. pythonPal offers Python support and interoperability between the C++/Python data based on the pybind11 library [1]. The code in this repository is based on OpenFOAM-9, however, as noted below, the procedures are expected to compile with similar versions and forks of OpenFOAM.
 
 ### [Manual approach] How do I get set up? ###
 
@@ -29,7 +29,7 @@ In addition, two pybind11 environment variables must be defined, for example, as
     export PYBIND11_INC_DIR=$(python3 -m pybind11 --includes)
     export PYBIND11_LIB_DIR=$(python3 -c 'from distutils import sysconfig; print(sysconfig.get_config_var("LIBDIR"))')
 
-Then, the OpenFOAM code included in the current repository can be compiled with the Allwmake script in the parent folder:
+Once those environment variables have been defined, the OpenFOAM code included in the current section can be compiled with the Allwmake script in the parent folder:
 
     ./Allwmake
 	
