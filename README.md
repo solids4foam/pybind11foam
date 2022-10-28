@@ -56,8 +56,7 @@ In addition, two pybind11 environment variables must be defined, for example, as
     export PYBIND11_INC_DIR=$(python3 -m pybind11 --includes)
     export PYBIND11_LIB_DIR=$(python3 -c 'from distutils import sysconfig; print(sysconfig.get_config_var("LIBDIR"))')
 
-Once the previous two lines have been executed, the OpenFOAM code included in the current repository can be compiled with the Allwmake script in the parent folder:
-
+Once those environment variables have been defined, the OpenFOAM code included in the current repository can be compiled with the Allwmake script in the parent folder:
     ./Allwmake
 
 This will install:
