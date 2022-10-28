@@ -1,18 +1,26 @@
 #!/bin/sh
 cd ${0%/*} || exit 1    # Run from this directory
 
-dir=${PWD##*/}
 
-echo "--------"
-echo "Cleaning ${dir}s ..."
-echo "Removing backup files"
-find . -type f \( -name "*~" -o -name "*.bak" \) -exec rm {} \;
-find . \( -name core -o -name 'core.[1-9]*' \) -exec rm {} \;
-find . \( -name '*.pvs' -o -name '*.OpenFOAM' \) -exec rm {} \;
-rm logs testLoopReport > /dev/null 2>&1
+if [[ $WM_PROJECT_VERSION = "v2012" ]]; then
+    keepCases="cavity cavityGrade cavityClipped"
 
-foamCleanTutorials cases
+    for caseName in $keepCases
+    do
+        ( cd $caseName && foamCleanTutorials )
+    done
 
-echo "--------"
+else 
+    dir=${PWD##*/}
+
+    echo "--------"
+    echo "Cleaning ${dir}s ..."
+    echo "Removing backup files"
+
+    foamCleanTutorials cases
+
+    echo "--------"
+fi
+
 
 #------------------------------------------------------------------------------
