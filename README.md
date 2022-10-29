@@ -126,7 +126,7 @@ The general pybind11 approach is independent of the OpenFOAM version/fork and is
 
 * OpenFOAM-9
 * OpenFOAM-v2012
-* foam-extend-4.1
+* foam-extend-4.1 (Git commit: 70b064d0f32604f4ce76c9c72cbdf643015a3250)
 
 If desired, the user can make the small changes required to get the cases to work with their particular version of OpenFOAM.
 
