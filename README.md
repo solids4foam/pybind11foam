@@ -57,6 +57,7 @@ In addition, two pybind11 environment variables must be defined, for example, as
     export PYBIND11_LIB_DIR=$(python3 -c 'from distutils import sysconfig; print(sysconfig.get_config_var("LIBDIR"))')
 
 Once those environment variables have been defined, the OpenFOAM code included in the current repository can be compiled with the Allwmake script in the parent folder:
+
     ./Allwmake
 
 If the Allwmake script gives the error “libpython or lpython not found” then please manually update the LD_LIBRARY_PATH environment variable with "export LD_LIBRARY_PATH=$PYBIND11_LIB_DIR:$LD_LIBRARY_PATH” and run the “./Allwmake” command again.
