@@ -63,12 +63,13 @@ If desired, the user can make the small changes required to get the cases to wor
 
 ### Who do I talk to? ###
 
-To be added after publication
+    Simon Rodriguez
+    simon.rodriguezluzardo@ucdconnect.ie
+    https://www.linkedin.com/in/simonrodriguezl/
 
-
-### How do I cite pythonPal? ###
-
-TO BE ADDED ONCE THE PAPER HAS BEEN ACCEPTED
+    Philip Cardiff
+    philip.cardiff@ucd.ie
+    https://www.linkedin.com/in/philipcardiff/
 
 
 ### References ###
