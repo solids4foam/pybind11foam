@@ -1,3 +1,0 @@
-pythonPalIcoFoam.C
-
-EXE = $(FOAM_USER_APPBIN)/pythonPalIcoFoam
