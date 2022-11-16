@@ -39,17 +39,16 @@ The conda environment can be activated with:
 
 Please be aware that the examples may not work with other versions of Python libraries, although they are likely to work with similar versions, e.g. Python 3.8.*.
 
-One of the test cases uses the solids4foam [2] toolbox. To install it, clone it from https://bitbucket.org/philip_cardiff/solids4foam-release/src/master/. You need to use the “nextRelease” branch of solids4foam:
+One of the test cases uses the solids4foam [2] toolbox. To install it, follow the instructions at https://solids4foam.github.io to install the `v2.0-alpha` version:
 
     cd $FOAM_RUN/..
-    git clone https://bitbucket.org/philip_cardiff/solids4foam-release.git
-    cd solids4foam-release
-    git checkout nextRelease
+    git clone --branch v2.0-alpha git@github.com:solids4foam/solids4foam.git
+    cd solids4foam
     ./Allwmake
 
 Once you have solids4foam on your system, set the following environment variable:
 
-    export SOLIDS4FOAM_INST_DIR=<location_of_solids4foam-release>
+    export SOLIDS4FOAM_INST_DIR=<location_of_solids4foam>
 
 In addition, two pybind11 environment variables must be defined, for example, as:
 
@@ -66,7 +65,7 @@ This will install:
 
 **./applications/solvers/**:
 
-* pythonLaplacianFoam: A wrapper OpenFOAM heat transfer solver which invokes a run-time Python script to solve the governing equations using a finite difference approach at each time step. This shows how new solvers could be more quickly prototyped using a combination of OpenFOAM and Python.
+* pythonLaplacianFoam: A wrapper OpenFOAM heat transfer solver which invokes a run-time Python script to solve the governing equations using a finite difference approach at each time step. This shows how new solvers could be prototyped more quickly using a combination of OpenFOAM and Python.
 
 * pythonSolids4Foam: This is a version of the solids4Foam [2] solver, where the setRootCase.H header file has been updated as per the description in the paper. This solver is used to demonstrate Python-based mechanical constitutive laws, which calculate a volSymmTensorField stress field using Python.
 
